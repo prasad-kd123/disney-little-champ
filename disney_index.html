@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Disney Little Champs · Daycare – VII Class</title>
+  <!-- Font Awesome 6 (free) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background: #f6faff;
+      color: #14273e;
+      overflow-x: hidden;
+    }
+
+    /* ---------- smooth scroll & animations ---------- */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    @keyframes fadeSlideUp {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes floatGlow {
+      0% { transform: translateY(0px) scale(1); }
+      50% { transform: translateY(-14px) scale(1.02); }
+      100% { transform: translateY(0px) scale(1); }
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes scaleIn {
+      0% { opacity: 0; transform: scale(0.92); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes pulseRing {
+      0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.3); }
+      70% { box-shadow: 0 0 0 20px rgba(255, 215, 0, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+    }
+
+    .animate-on-scroll {
+      opacity: 0;
+      animation: fadeSlideUp 0.9s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+    }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.25s; }
+    .delay-3 { animation-delay: 0.4s; }
+    .delay-4 { animation-delay: 0.55s; }
+
+    /* ---------- header / navbar ---------- */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 5%;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 8px 32px rgba(0, 10, 30, 0.06);
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      border-bottom: 2px solid rgba(255, 215, 0, 0.25);
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #0b2b4a;
+    }
+
+    .logo img {
+      height: 48px;
+      width: 135px;
+      background: white;
+      padding: 4px;
+    }
+
+    .logo span {
+      background: linear-gradient(145deg, #0b2b4a, #1e5b7c);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.8rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 500;
+      color: #1a2b3e;
+      transition: 0.25s;
+      font-size: 1rem;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -5px;
+      width: 0%;
+      height: 3px;
+      background: #f5b342;
+      border-radius: 8px;
+      transition: 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #0a2a44;
+    }
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .cta-btn {
+      background: #f5b342;
+      color: #0b2b4a !important;
+      padding: 0.5rem 1.6rem;
+      border-radius: 40px;
+      font-weight: 600;
+      box-shadow: 0 8px 18px -6px rgba(245, 179, 66, 0.4);
+      transition: 0.3s;
+    }
+    .cta-btn:hover {
+      background: #e09e2f;
+      transform: scale(1.02);
+      box-shadow: 0 12px 24px -8px rgba(245, 179, 66, 0.5);
+    }
+    .cta-btn::after { display: none; }
+
+    /* ---------- banner / hero ---------- */
+    .banner {
+      min-height: 82vh;
+      display: flex;
+      align-items: center;
+      padding: 2rem 5% 3rem;
+      background: linear-gradient(135deg, #e6effa 0%, #d4e2f2 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .banner::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      right: -5%;
+      width: 550px;
+      height: 550px;
+      background: radial-gradient(circle, rgba(245, 179, 66, 0.08) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: floatGlow 10s infinite alternate ease-in-out;
+    }
+
+    .banner-content {
+      max-width: 1400px;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2.5rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .banner-text {
+      flex: 1 1 460px;
+      animation: fadeSlideUp 0.9s ease-out;
+    }
+
+    .banner-text .badge {
+      display: inline-block;
+      background: rgba(245, 179, 66, 0.2);
+      padding: 0.3rem 1.4rem;
+      border-radius: 40px;
+      font-weight: 600;
+      color: #7a5800;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+    }
+
+    .banner-text h1 {
+      font-size: clamp(2.6rem, 7vw, 4.6rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 0.8rem;
+    }
+
+    .banner-text h1 .highlight {
+      background: linear-gradient(145deg, #f5b342, #d48d2a);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+    }
+
+    .banner-text .tagline {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #0b2b4a;
+      margin: 0.2rem 0 0.6rem;
+    }
+
+    .banner-text .quote {
+      font-size: 1.2rem;
+      font-style: italic;
+      color: #2a4059;
+      background: rgba(255, 255, 255, 0.5);
+      padding: 0.4rem 1.2rem;
+      border-radius: 40px;
+      display: inline-block;
+      backdrop-filter: blur(4px);
+      margin-bottom: 1.2rem;
+      border-left: 4px solid #f5b342;
+    }
+
+    .banner-text p {
+      font-size: 1.1rem;
+      color: #2a4059;
+      max-width: 500px;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .btn-primary {
+      background: #0b2b4a;
+      border: none;
+      color: white;
+      padding: 0.8rem 2.4rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 8px 24px rgba(11, 43, 74, 0.25);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .btn-primary:hover {
+      background: #0a1f33;
+      transform: translateY(-4px);
+      box-shadow: 0 16px 32px -6px rgba(11, 43, 74, 0.35);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid #0b2b4a;
+      color: #0b2b4a;
+      padding: 0.8rem 2.4rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: 0.3s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-outline:hover {
+      background: #0b2b4a;
+      color: white;
+      transform: scale(1.02);
+    }
+
+    .banner-image {
+      flex: 1 1 380px;
+      display: flex;
+      justify-content: center;
+      animation: floatGlow 7s infinite alternate ease-in-out;
+    }
+
+    .banner-image img {
+      max-width: 100%;
+      width: 420px;
+      height: auto;
+      border-radius: 60px 20px 60px 20px;
+      box-shadow: 0 40px 70px -20px rgba(0, 20, 40, 0.3);
+      border: 4px solid rgba(255, 255, 255, 0.7);
+      background: #fff;
+      object-fit: contain;
+      aspect-ratio: 1/1;
+    }
+
+    /* ---------- section common ---------- */
+    .section {
+      padding: 4rem 5%;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 2.6rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(145deg, #0b2b4a, #1e5b7c);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+    }
+
+    .section-sub {
+      color: #3a4f68;
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin-bottom: 2.5rem;
+      border-left: 5px solid #f5b342;
+      padding-left: 1.4rem;
+    }
+
+    /* ---------- about ---------- */
+    .about-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .about-text {
+      flex: 1 1 400px;
+    }
+
+    .about-text h3 {
+      font-size: 2rem;
+      margin-bottom: 0.8rem;
+      color: #0b2b4a;
+    }
+
+    .about-text p {
+      color: #2f4663;
+      line-height: 1.7;
+      margin-bottom: 1.2rem;
+    }
+
+    .about-image {
+      flex: 1 1 360px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .about-image img {
+      width: 100%;
+      max-width: 420px;
+      border-radius: 50px 20px 50px 20px;
+      box-shadow: 0 30px 50px -16px rgba(0, 0, 0, 0.15);
+      border: 4px solid white;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+    }
+
+    /* ---------- school classes ---------- */
+    .class-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .class-card {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(6px);
+      padding: 1.8rem 1.5rem;
+      border-radius: 40px 16px 40px 16px;
+      box-shadow: 0 20px 40px -12px rgba(0, 30, 60, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      transition: 0.35s;
+      text-align: center;
+      animation: scaleIn 0.7s ease forwards;
+    }
+
+    .class-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 32px 56px -18px rgba(0, 30, 60, 0.18);
+      background: rgba(255, 255, 255, 0.85);
+    }
+
+    .class-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 30px 8px 30px 8px;
+      margin-bottom: 1rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    }
+
+    .class-card h3 {
+      font-size: 1.5rem;
+      color: #0b2b4a;
+    }
+
+    .class-card p {
+      color: #2f4663;
+      font-size: 0.95rem;
+      margin: 0.4rem 0 0.8rem;
+    }
+
+    .class-tag {
+      background: #f5b34220;
+      padding: 0.2rem 1.2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: #7a5800;
+      display: inline-block;
+    }
+
+    /* ---------- blog ---------- */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+
+    .blog-card {
+      background: white;
+      border-radius: 30px 12px 30px 12px;
+      overflow: hidden;
+      box-shadow: 0 16px 36px -12px rgba(0, 20, 40, 0.08);
+      transition: 0.3s;
+      border: 1px solid rgba(255, 215, 0, 0.1);
+    }
+
+    .blog-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 28px 48px -18px rgba(0, 20, 40, 0.18);
+    }
+
+    .blog-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .blog-content {
+      padding: 1.3rem 1.3rem 1.8rem;
+    }
+
+    .blog-content h4 {
+      font-size: 1.2rem;
+      margin-bottom: 0.3rem;
+      color: #0b2b4a;
+    }
+
+    .blog-content p {
+      color: #3d5672;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .blog-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 0.8rem;
+      font-size: 0.8rem;
+      color: #5f7a97;
+    }
+
+    /* ---------- testimonial slider ---------- */
+    .testimonial-slider-wrapper {
+      position: relative;
+      max-width: 900px;
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 50px 16px 50px 16px;
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(6px);
+      padding: 2rem 1.5rem;
+      box-shadow: 0 20px 40px -12px rgba(0, 30, 60, 0.08);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+    }
+
+    .testimonial-slider {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .testimonial-slide {
+      min-width: 100%;
+      padding: 0.5rem 1rem;
+      text-align: center;
+    }
+
+    .testimonial-slide i {
+      color: #f5b342;
+      font-size: 2.2rem;
+      opacity: 0.6;
+      margin-bottom: 0.5rem;
+    }
+
+    .testimonial-slide p {
+      font-size: 1.2rem;
+      font-style: italic;
+      color: #1a304a;
+      line-height: 1.7;
+      max-width: 700px;
+      margin: 0 auto 1rem;
+    }
+
+    .testimonial-slide .author {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 0.8rem;
+    }
+
+    .testimonial-slide .author img {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #f5b342;
+    }
+
+    .testimonial-slide .author strong {
+      color: #0b2b4a;
+      font-size: 1rem;
+    }
+
+    .slider-controls {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      margin-top: 1.8rem;
+    }
+
+    .slider-controls button {
+      background: #0b2b4a;
+      color: white;
+      border: none;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      font-size: 1.4rem;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 8px 18px -6px rgba(0, 0, 0, 0.2);
+    }
+
+    .slider-controls button:hover {
+      background: #f5b342;
+      color: #0b2b4a;
+      transform: scale(1.05);
+    }
+
+    .slider-dots {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 1.2rem;
+    }
+
+    .slider-dots span {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #bcc9db;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .slider-dots span.active {
+      background: #f5b342;
+      width: 28px;
+      border-radius: 20px;
+    }
+
+    /* ---------- CTA ---------- */
+    .cta-section {
+      background: linear-gradient(135deg, #0b2b4a, #1a4b6e);
+      padding: 3.5rem 5%;
+      border-radius: 80px 16px 80px 16px;
+      color: white;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      margin: 3rem auto;
+      box-shadow: 0 30px 60px -20px rgba(0, 20, 40, 0.5);
+      animation: pulseRing 4s infinite;
+    }
+
+    .cta-section h2 {
+      font-size: 2.4rem;
+      font-weight: 600;
+    }
+
+    .cta-section p {
+      opacity: 0.85;
+      font-size: 1.1rem;
+      max-width: 450px;
+    }
+
+    .cta-section .btn-primary {
+      background: #f5b342;
+      color: #0b2b4a;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .cta-section .btn-primary:hover {
+      background: #e09e2f;
+      transform: scale(1.04);
+    }
+
+    /* ---------- footer ---------- */
+    footer {
+      text-align: center;
+      padding: 2.5rem 5%;
+      color: #2f4a66;
+      border-top: 2px solid rgba(245, 179, 66, 0.15);
+      margin-top: 1rem;
+      font-size: 0.95rem;
+    }
+
+    footer .social {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin: 1rem 0;
+      font-size: 1.4rem;
+    }
+
+    footer .social a {
+      color: #1a3d5c;
+      transition: 0.3s;
+    }
+
+    footer .social a:hover {
+      color: #f5b342;
+      transform: translateY(-3px);
+    }
+
+    /* ---------- responsive ---------- */
+    @media (max-width: 800px) {
+      .banner-text h1 { font-size: 2.6rem; }
+      .banner-image img { width: 300px; }
+      .cta-section { flex-direction: column; text-align: center; }
+    }
+
+    @media (max-width: 500px) {
+      .navbar { flex-direction: column; align-items: stretch; }
+      .nav-links { justify-content: center; }
+      .banner-text h1 { font-size: 2rem; }
+      .btn-primary, .btn-outline { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="navbar">
+  <div class="logo">
+    <!-- using a placeholder for school logo; replace with actual logo if needed -->
+    <img src="images/disney-logo1.png" alt="Disney Little Champs Logo" />
+    <!-- <span>Disney Little Champs</span> -->
+  </div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#classes">Classes</a>
+    <a href="#blog">Blog</a>
+    <a href="#testimonials">Testimonials</a>
+    <a href="#cta" class="cta-btn"><i class="fas fa-star"></i> Enroll</a>
+  </div>
+</header>
+
+<!-- BANNER -->
+<section class="banner" id="home">
+  <div class="banner-content">
+    <div class="banner-text">
+      <span class="badge"><i class="fas fa-crown"></i> Daycare · Nursery – VII Class</span>
+      <h1>
+        <span class="highlight">Disney</span> Little Champs
+      </h1>
+      <div class="tagline"><i class="fas fa-bolt" style="color:#f5b342;"></i> ACTION IS THE KEY TO ALL SUCCESS</div>
+      <div class="quote"><i class="fas fa-quote-left" style="color:#f5b342; margin-right:6px;"></i> Where every child discovers their magic</div>
+      <p>From daycare to Class VII, we nurture young minds with a blend of joy, discipline, and academic excellence.</p>
+      <div style="display:flex; flex-wrap:wrap; gap:1rem;">
+        <a href="#cta" class="btn-primary"><i class="fas fa-rocket"></i> Start journey</a>
+        <a href="#about" class="btn-outline"><i class="fas fa-chevron-right"></i> Discover</a>
+      </div>
+    </div>
+    <div class="banner-image">
+      <!-- using one of the user's images (we'll embed as base64 / placeholder) -->
+      <img src="images/disney-school.jpeg" alt="Disney Little Champs School" />
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <h2 class="section-title animate-on-scroll">About Our School</h2>
+  <div class="section-sub animate-on-scroll delay-1">Inspiring young champions from Daycare through Class VII.</div>
+  <div class="about-grid">
+    <div class="about-text animate-on-scroll delay-2">
+      <h3><i class="fas fa-graduation-cap" style="color:#f5b342;"></i> Disney Little Champs</h3>
+      <p>We blend the magic of Disney with a strong academic foundation. Our school offers Daycare, Nursery, and classes up to VII, with a focus on holistic development.</p>
+      <p><strong>“Action is the key to all success”</strong> — our motto drives every activity, from play-based learning in early years to rigorous academics in upper classes.</p>
+      <p>We also offer <strong>IIT-JEE Foundation Course</strong> and <strong>Foundation Course Courses</strong> for advanced learners.</p>
+      <a href="#" class="btn-primary" style="padding:0.6rem 2rem; font-size:0.9rem;"><i class="fas fa-book-open"></i> Learn more</a>
+    </div>
+    <div class="about-image animate-on-scroll delay-3">
+      <img src="images/icon-school.jpeg" alt="About us" />
+    </div>
+  </div>
+</section>
+
+<!-- CLASSES -->
+<section class="section" id="classes">
+  <h2 class="section-title animate-on-scroll">Our Classes</h2>
+  <div class="section-sub animate-on-scroll delay-1">From Daycare to Class VII — every stage matters.</div>
+  <div class="class-grid">
+    <div class="class-card animate-on-scroll delay-1">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200' viewBox='0 0 400 200'%3E%3Crect width='400' height='200' fill='%23f5b34230'/%3E%3Ctext x='50' y='120' font-family='Arial' font-weight='bold' font-size='40' fill='%230b2b4a'%3E🌈%3C/text%3E%3C/svg%3E" alt="Daycare & Nursery" />
+      <h3>🌸 Daycare & Nursery</h3>
+      <p>Play-based learning, early social skills, and a nurturing environment for our youngest champs.</p>
+      <span class="class-tag"><i class="fas fa-star"></i> foundation</span>
+    </div>
+    <div class="class-card animate-on-scroll delay-2">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200' viewBox='0 0 400 200'%3E%3Crect width='400' height='200' fill='%230b2b4a20'/%3E%3Ctext x='50' y='120' font-family='Arial' font-weight='bold' font-size='40' fill='%230b2b4a'%3E📚%3C/text%3E%3C/svg%3E" alt="I-V Class" />
+      <h3>📘 Classes I – V</h3>
+      <p>Core academics, creative arts, and character building. Strong foundation for future success.</p>
+      <span class="class-tag">explore</span>
+    </div>
+    <div class="class-card animate-on-scroll delay-3">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200' viewBox='0 0 400 200'%3E%3Crect width='400' height='200' fill='%23f5b34220'/%3E%3Ctext x='50' y='120' font-family='Arial' font-weight='bold' font-size='40' fill='%230b2b4a'%3E🚀%3C/text%3E%3C/svg%3E" alt="VI-VII & Foundation" />
+      <h3>⚡ Classes VI – VII</h3>
+      <p>Advanced curriculum, IIT-JEE Foundation, and Milieu courses to prepare for competitive exams.</p>
+      <span class="class-tag">premier track</span>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section class="section" id="blog">
+  <h2 class="section-title animate-on-scroll">From the Blog</h2>
+  <div class="section-sub animate-on-scroll delay-1">Stories, tips, and updates from our school.</div>
+  <div class="blog-grid">
+    <div class="blog-card animate-on-scroll delay-1">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='300' viewBox='0 0 600 300'%3E%3Crect width='600' height='300' fill='%23f5b34220'/%3E%3Ctext x='100' y='160' font-family='Arial' font-weight='bold' font-size='32' fill='%230b2b4a'%3E🎨 Creative Champs%3C/text%3E%3C/svg%3E" alt="Blog 3" />
+      <div class="blog-content">
+        <h4>Action is the key to success</h4>
+        <p>How our students learn to turn ideas into action — from classroom projects to life skills.</p>
+        <div class="blog-meta"><i class="fas fa-calendar-alt"></i> June 18, 2026 · <i class="fas fa-comment"></i> 6</div>
+      </div>
+    </div>
+    <div class="blog-card animate-on-scroll delay-2">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='300' viewBox='0 0 600 300'%3E%3Crect width='600' height='300' fill='%23e6effa'/%3E%3Ctext x='100' y='160' font-family='Arial' font-weight='bold' font-size='32' fill='%230b2b4a'%3E🧪 Foundation Courses%3C/text%3E%3C/svg%3E" alt="Blog 2" />
+      <div class="blog-content">
+        <h4>IIT-JEE & Foundation Course</h4>
+        <p>Our specialized programs prepare students for competitive exams with confidence and clarity.</p>
+        <div class="blog-meta"><i class="fas fa-calendar-alt"></i> June 10, 2026 · <i class="fas fa-comment"></i> 9</div>
+      </div>
+    </div>
+    <div class="blog-card animate-on-scroll delay-3">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='300' viewBox='0 0 600 300'%3E%3Crect width='600' height='300' fill='%23f5b34220'/%3E%3Ctext x='100' y='160' font-family='Arial' font-weight='bold' font-size='32' fill='%230b2b4a'%3E🎨 Creative Champs%3C/text%3E%3C/svg%3E" alt="Blog 3" />
+      <div class="blog-content">
+        <h4>Art & Expression at Disney</h4>
+        <p>How we integrate creativity with academics to build well-rounded, confident children.</p>
+        <div class="blog-meta"><i class="fas fa-calendar-alt"></i> May 28, 2026 · <i class="fas fa-comment"></i> 5</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS (Slider) -->
+<section class="section" id="testimonials">
+  <h2 class="section-title animate-on-scroll">Testimonials</h2>
+  <div class="section-sub animate-on-scroll delay-1">What our families say about Disney Little Champs.</div>
+
+  <div class="testimonial-slider-wrapper animate-on-scroll delay-2">
+    <div class="testimonial-slider" id="testimonialSlider">
+      <div class="testimonial-slide">
+        <i class="fas fa-quote-right"></i>
+        <p>“My child has grown so much since joining Disney Little Champs. The daycare is warm and caring, and the academic foundation is strong. Action is truly the key here!”</p>
+        <div class="author">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23f5b342'/%3E%3Ctext x='30' y='65' font-family='Arial' font-weight='bold' font-size='36' fill='white'%3EM%3C/text%3E%3C/svg%3E" alt="Parent" />
+          <div><strong>Mrs. Sharma</strong><br /><span style="font-size:0.8rem; color:#5f7a97;">Parent of Class II student</span></div>
+        </div>
+      </div>
+      <div class="testimonial-slide">
+        <i class="fas fa-quote-right"></i>
+        <p>“The IIT-JEE Foundation course has been a game-changer for my son. The teachers are dedicated, and the environment is perfect for focused learning.”</p>
+        <div class="author">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%230b2b4a'/%3E%3Ctext x='30' y='65' font-family='Arial' font-weight='bold' font-size='36' fill='white'%3ER%3C/text%3E%3C/svg%3E" alt="Parent" />
+          <div><strong>Mr. Verma</strong><br /><span style="font-size:0.8rem; color:#5f7a97;">Parent of Class VI student</span></div>
+        </div>
+      </div>
+      <div class="testimonial-slide">
+        <i class="fas fa-quote-right"></i>
+        <p>“From nursery to now Class V, my daughter loves every day at Disney Little Champs. The blend of fun and learning is outstanding.”</p>
+        <div class="author">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23d4e2f2'/%3E%3Ctext x='30' y='65' font-family='Arial' font-weight='bold' font-size='36' fill='%230b2b4a'%3EA%3C/text%3E%3C/svg%3E" alt="Parent" />
+          <div><strong>Ms. Patel</strong><br /><span style="font-size:0.8rem; color:#5f7a97;">Parent of Class V student</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slider controls -->
+    <div class="slider-controls">
+      <button id="prevSlide"><i class="fas fa-chevron-left"></i></button>
+      <button id="nextSlide"><i class="fas fa-chevron-right"></i></button>
+    </div>
+    <div class="slider-dots" id="sliderDots">
+      <span class="active" data-index="0"></span>
+      <span data-index="1"></span>
+      <span data-index="2"></span>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section" id="cta">
+  <div class="cta-section animate-on-scroll">
+    <div>
+      <h2><i class="fas fa-magic" style="color:#f5b342;"></i> Enroll Your Champ</h2>
+      <p>Daycare · Nursery · Classes I–VII · IIT-JEE Foundation · Milieu Courses</p>
+      <p style="margin-top:0.3rem; font-size:0.9rem; opacity:0.8;"><i class="fas fa-phone"></i> 7803598318 · 7416981787</p>
+    </div>
+    <a href="#" class="btn-primary" style="background:#f5b342; color:#0b2b4a; font-weight:700; padding:0.9rem 2.8rem;">
+      <i class="fas fa-pen-fancy"></i> Apply now
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:1.5rem; align-items:center;">
+    <span><i class="fas fa-mickey" style="color:#f5b342;"></i> Disney Little Champs</span>
+    <span>·</span>
+    <span>Daycare · Nursery – VII</span>
+    <span>·</span>
+    <span><i class="fas fa-map-pin"></i> ICON English Medium School</span>
+  </div>
+  <div style="margin:0.5rem 0; font-size:0.9rem; color:#2f4a66;">
+    <i class="fas fa-phone"></i> 7803598318 · 7416981787
+  </div>
+  <div class="social">
+    <a href="#"><i class="fab fa-facebook-f"></i></a>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+    <a href="#"><i class="fab fa-youtube"></i></a>
+    <a href="#"><i class="fab fa-twitter"></i></a>
+  </div>
+  <p style="opacity:0.7; font-size:0.85rem;">© 2026 · Action is the key to all success · <i class="fas fa-heart" style="color:#f5b342;"></i></p>
+</footer>
+
+<script>
+  // Testimonial Slider
+  (function() {
+    const slider = document.getElementById('testimonialSlider');
+    const slides = slider.querySelectorAll('.testimonial-slide');
+    const dots = document.querySelectorAll('.slider-dots span');
+    const prevBtn = document.getElementById('prevSlide');
+    const nextBtn = document.getElementById('nextSlide');
+    let currentIndex = 0;
+    const totalSlides = slides.length;
+
+    function updateSlider(index) {
+      if (index < 0) index = totalSlides - 1;
+      if (index >= totalSlides) index = 0;
+      currentIndex = index;
+      slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentIndex);
+      });
+    }
+
+    prevBtn.addEventListener('click', () => updateSlider(currentIndex - 1));
+    nextBtn.addEventListener('click', () => updateSlider(currentIndex + 1));
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => updateSlider(i));
+    });
+
+    // Auto-slide
+    let autoSlide = setInterval(() => updateSlider(currentIndex + 1), 5000);
+
+    // Pause on hover
+    const wrapper = document.querySelector('.testimonial-slider-wrapper');
+    wrapper.addEventListener('mouseenter', () => clearInterval(autoSlide));
+    wrapper.addEventListener('mouseleave', () => {
+      autoSlide = setInterval(() => updateSlider(currentIndex + 1), 5000);
+    });
+
+    // init
+    updateSlider(0);
+  })();
+
+  // animation trigger
+  (function(){
+    const els = document.querySelectorAll('.animate-on-scroll');
+    els.forEach(el => {
+      el.style.opacity = '1';
+      el.style.animation = 'none';
+      void el.offsetHeight;
+      el.style.animation = '';
+    });
+  })();
+</script>
+
+</body>
+</html>
